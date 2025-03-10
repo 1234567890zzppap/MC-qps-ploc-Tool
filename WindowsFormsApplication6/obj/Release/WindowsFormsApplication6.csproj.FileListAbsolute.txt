@@ -1,0 +1,15 @@
+C:\Users\ZZPPAP\documents\visual studio 2012\Projects\WindowsFormsApplication6\WindowsFormsApplication6\bin\Release\WindowsFormsApplication6.exe
+C:\Users\ZZPPAP\documents\visual studio 2012\Projects\WindowsFormsApplication6\WindowsFormsApplication6\bin\Release\WindowsFormsApplication6.pdb
+C:\Users\ZZPPAP\documents\visual studio 2012\Projects\WindowsFormsApplication6\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.Form1.resources
+C:\Users\ZZPPAP\documents\visual studio 2012\Projects\WindowsFormsApplication6\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.Properties.Resources.resources
+C:\Users\ZZPPAP\documents\visual studio 2012\Projects\WindowsFormsApplication6\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.csproj.GenerateResource.Cache
+C:\Users\ZZPPAP\documents\visual studio 2012\Projects\WindowsFormsApplication6\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.exe
+C:\Users\ZZPPAP\documents\visual studio 2012\Projects\WindowsFormsApplication6\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.pdb
+C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\bin\Release\MC qps-ploc.exe
+C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\bin\Release\MC qps-ploc.pdb
+C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.Form1.resources
+C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.Properties.Resources.resources
+C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.csproj.GenerateResource.Cache
+C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\MC qps-ploc.exe
+C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\MC qps-ploc.pdb
+C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.csprojResolveAssemblyReference.cache
