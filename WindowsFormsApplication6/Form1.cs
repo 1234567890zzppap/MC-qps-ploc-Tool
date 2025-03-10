@@ -544,15 +544,85 @@ public void MainBuild()
     }
     if (radioButton2.Checked)
     {
+       
         if (checkBox1.Checked)
         { lang = textBox1.Text; }
         else
         { lang = "qps_ploc"; }
         // Console.WriteLine(folderpath);
         if (savemode == 0)
-        {DoFolder(folderpath);}
+        {string[] tmp1 = Directory.GetFiles(folderpath);
+        bool ismcpack = false;
+        
+        foreach (string n in tmp1)
+        {
+            if (ContainsSubstring(n, "pack.mcmeta"))
+            { ismcpack = true; }
+            Console.WriteLine(n);
+        }
+        if (ismcpack)
+        {
+            DoFolder(folderpath);
+        }
+        else
+        {
+            DialogResult result = MessageBox.Show(
+                "您确定要在非MC材质包执行伪本地化操作吗？", // 消息内容
+                "警告",                  // 对话框标题
+                MessageBoxButtons.YesNo, // 按钮类型（是/否）
+                MessageBoxIcon.Question // 图标类型（问号）
+                );
+
+            // 根据用户的选择执行操作
+            if (result == DialogResult.Yes)
+            {
+                DoFolder(folderpath);
+                Console.WriteLine("用户选择了“是”");
+                // 在这里添加“是”的逻辑
+            }
+            else if (result == DialogResult.No)
+            {
+                Console.WriteLine("用户选择了“否”");
+                // 在这里添加“否”的逻辑
+            }
+        }
+            }
         if (savemode == 1 || savemode == 2)
-        { DoFolder(savefolderpath); }
+        {
+            bool ismcpack = false;
+            string[] tmp1 = Directory.GetFiles(savefolderpath);
+            foreach(string n in tmp1)
+            {
+                if (ContainsSubstring(n, "pack.mcmeta"))
+                { ismcpack = true; }
+            Console.WriteLine(n);}
+            if (ismcpack)
+            {
+                DoFolder(savefolderpath);
+            }
+            else
+            {
+                DialogResult result = MessageBox.Show(
+                    "您确定要在非MC材质包执行伪本地化操作吗？", // 消息内容
+                    "警告",                  // 对话框标题
+                    MessageBoxButtons.YesNo, // 按钮类型（是/否）
+                    MessageBoxIcon.Question // 图标类型（问号）
+                    );
+
+                // 根据用户的选择执行操作
+                if (result == DialogResult.Yes)
+                {
+                    DoFolder(savefolderpath);
+                    Console.WriteLine("用户选择了“是”");
+                    // 在这里添加“是”的逻辑
+                }
+                else if (result == DialogResult.No)
+                {
+                    Console.WriteLine("用户选择了“否”");
+                    // 在这里添加“否”的逻辑
+                }
+            }
+        }
     }
 }
 private void 生成ToolStripMenuItem_Click(object sender, EventArgs e)
