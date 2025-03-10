@@ -13,3 +13,4 @@ C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplicat
 C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\MC qps-ploc.exe
 C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\MC qps-ploc.pdb
 C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.csprojResolveAssemblyReference.cache
+C:\Users\ZZPPAP\Documents\Visual Studio 2012\Projects\pesdo\WindowsFormsApplication6\obj\Release\WindowsFormsApplication6.Form2.resources

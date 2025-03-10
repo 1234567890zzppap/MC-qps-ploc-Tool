@@ -43,7 +43,36 @@ namespace WindowsFormsApplication6
                     string value = match.Groups[1].Value;
                    // Console.WriteLine(value);
                     string replaced = value
-           .Replace("\\n", "占") // 替换 \n
+           .Replace("\\n", "占")
+           .Replace("§2", "吗")
+           .Replace("§3", "没")// 替换 \n
+           .Replace("§a", "篇") // 替换 \n
+           .Replace("§b", "长") // 替换 \n
+           .Replace("§c", "涨") // 替换 \n
+           .Replace("§d", "张") // 替换 \n
+           .Replace("§e", "帐") // 替换 \n
+           .Replace("§f", "章") // 替换 \n
+           .Replace("§k", "掌") // 替换 \n
+           .Replace("§l", "在") // 替换 \n
+           .Replace("§m", "中") // 替换 \n
+           .Replace("§n", "这") // 替换 \n
+           .Replace("§o", "啊")
+           .Replace("§r", "阿") // 替换 \n
+           .Replace("§A", "吖") // 替换 \n
+           .Replace("§B", "锕") // 替换 \n
+           .Replace("§C", "腌") // 替换 \n
+           .Replace("§D", "呵") // 替换 \n
+           .Replace("§E", "了") // 替换 \n
+           .Replace("§F", "来") // 替换 \n
+           .Replace("§K", "零") // 替换 \n
+           .Replace("§L", "啦") // 替换 \n
+           .Replace("§M", "怕") // 替换 \n
+           .Replace("§N", "人") // 替换 \n
+           .Replace("§O", "我")
+           .Replace("§R", "为") // 替换 \n
+           .Replace("%i", "五") // 替换 \n
+           .Replace("%f", "去") // 替换 \n
+           .Replace("%d", "哎") // 替换 \n
            .Replace("%s", "站"); // 替换 %s
 
                     // Console.WriteLine(value);
@@ -52,8 +81,37 @@ namespace WindowsFormsApplication6
                     string tmp2 = input
                          .Replace("\"" + match.Groups[1].Value + "\"", "\"" + tmp1 + "\"");
                     replaced = tmp2
-           .Replace("占", "\\n") // 替换 \n
-           .Replace("站", "%s");
+         .Replace("占", "\\n")
+.Replace("吗", "§2")
+.Replace("没", "§3") // 替换 \n
+.Replace("篇", "§a") // 替换 \n
+.Replace("长", "§b") // 替换 \n
+.Replace("涨", "§c") // 替换 \n
+.Replace("张", "§d") // 替换 \n
+.Replace("帐", "§e") // 替换 \n
+.Replace("章", "§f") // 替换 \n
+.Replace("掌", "§k") // 替换 \n
+.Replace("在", "§l") // 替换 \n
+.Replace("中", "§m") // 替换 \n
+.Replace("这", "§n") // 替换 \n
+.Replace("啊", "§o")
+.Replace("阿", "§r") // 替换 \n
+.Replace("吖", "§A") // 替换 \n
+.Replace("锕", "§B") // 替换 \n
+.Replace("腌", "§C") // 替换 \n
+.Replace("呵", "§D") // 替换 \n
+.Replace("了", "§E") // 替换 \n
+.Replace("来", "§F") // 替换 \n
+.Replace("零", "§K") // 替换 \n
+.Replace("啦", "§L") // 替换 \n
+.Replace("怕", "§M") // 替换 \n
+.Replace("人", "§N") // 替换 \n
+.Replace("我", "§O")
+.Replace("为", "§R") // 替换 \n
+.Replace("五", "%i") // 替换 \n
+.Replace("去", "%f") // 替换 \n
+.Replace("哎", "%d") // 替换 \n
+.Replace("站", "%s"); // 替换 %s
                     // Console.WriteLine(input + "Debug:" + tmp2);
                     return replaced;
                 }
@@ -500,7 +558,12 @@ public void MainBuild()
 private void 生成ToolStripMenuItem_Click(object sender, EventArgs e)
 {
     savemode = 0;
-    MainBuild();
+    if (path != null || folderpath != null)
+    {
+        MainBuild();
+    }
+    else
+    { MessageBox.Show("请先打开文件"); }
 }
 
 private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -512,32 +575,37 @@ private void 生成并另存为ToolStripMenuItem_Click(object sender, EventArgs 
 {
     savemode = 1;
     if (radioButton1.Checked)
-    {    
-        using (SaveFileDialog saveDialog = new SaveFileDialog())
+    {
+        if (path != null)
         {
-            saveDialog.Title = "保存语言文件文件";
-            saveDialog.Filter = "json语言文件|*.json";
-            saveDialog.DefaultExt = "json";
-            
-
-            if (saveDialog.ShowDialog() == DialogResult.OK)
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
-               
-                try
+                saveDialog.Title = "保存语言文件文件";
+                saveDialog.Filter = "json语言文件|*.json";
+                saveDialog.DefaultExt = "json";
+
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    savepath = saveDialog.FileName;
-                    MainBuild();
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    Console.WriteLine("错误: 无权限写入目标路径");
-                }
-                catch (IOException ex)
-                {
-                    Console.WriteLine("错误: 文件写入失败 - " + ex.Message);
+
+                    try
+                    {
+                        savepath = saveDialog.FileName;
+                        MainBuild();
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        Console.WriteLine("错误: 无权限写入目标路径");
+                    }
+                    catch (IOException ex)
+                    {
+                        Console.WriteLine("错误: 文件写入失败 - " + ex.Message);
+                    }
                 }
             }
         }
+        else
+        { MessageBox.Show("请先打开文件"); }
         
     }
     if (radioButton2.Checked)
@@ -582,6 +650,12 @@ private void 生成并另存为ToolStripMenuItem_Click(object sender, EventArgs 
     
     
     
+}
+
+private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+{
+    Form f2 = new Form2();
+    f2.ShowDialog();
 }
 
 

@@ -139,6 +139,7 @@
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
             this.关于ToolStripMenuItem.Size = new System.Drawing.Size(58, 28);
             this.关于ToolStripMenuItem.Text = "关于";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
             // Form1
             // 
