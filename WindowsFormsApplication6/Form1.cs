@@ -23,6 +23,7 @@ namespace WindowsFormsApplication6
         public string savepath;
         public string savefolderpath;
         public int savemode = 0;
+        public bool oldmc = false;
         public Form1()
         {
             
@@ -32,16 +33,16 @@ namespace WindowsFormsApplication6
         public string Out(string input)
         {
             //Console.WriteLine(input);
-
-            Regex regex = new Regex(@":\s*""((?:\\""|[^""])*)""");
+if (!oldmc)
+{    Regex regex = new Regex(@":\s*""((?:\\""|[^""])*)""");
             MatchCollection matches = regex.Matches(input);
 
             foreach (Match match in matches)
             {
-                if (match.Success )
+                if (match.Success)
                 {
                     string value = match.Groups[1].Value;
-                   // Console.WriteLine(value);
+                    // Console.WriteLine(value);
                     string replaced = value
            .Replace("\\n", "占")
            .Replace("§2", "吗")
@@ -69,6 +70,9 @@ namespace WindowsFormsApplication6
            .Replace("§M", "怕") // 替换 \n
            .Replace("§N", "人") // 替换 \n
            .Replace("§O", "我")
+           .Replace("$s", "口")
+           .Replace("%2", "抠")
+           .Replace("%3", "扣")
            .Replace("§R", "为") // 替换 \n
            .Replace("%i", "五") // 替换 \n
            .Replace("%f", "去") // 替换 \n
@@ -107,6 +111,9 @@ namespace WindowsFormsApplication6
 .Replace("怕", "§M") // 替换 \n
 .Replace("人", "§N") // 替换 \n
 .Replace("我", "§O")
+.Replace("口", "$s")
+.Replace("抠","%2")
+.Replace("扣","%3")
 .Replace("为", "§R") // 替换 \n
 .Replace("五", "%i") // 替换 \n
 .Replace("去", "%f") // 替换 \n
@@ -115,10 +122,103 @@ namespace WindowsFormsApplication6
                     // Console.WriteLine(input + "Debug:" + tmp2);
                     return replaced;
                 }
+            }
                 
 
             }
+            if (oldmc)
+            { string sc = GetValueAfterEquals(input);
+            string tmp1 = sc;
+            string replaced = tmp1
+           .Replace("\\n", "占")
+           .Replace("§2", "吗")
+           .Replace("$s", "口")
+           .Replace("%2", "抠")
+           .Replace("%3", "扣")
+           .Replace("§3", "没")// 替换 \n
+           .Replace("§a", "篇") // 替换 \n
+           .Replace("§b", "长") // 替换 \n
+           .Replace("§c", "涨") // 替换 \n
+           .Replace("§d", "张") // 替换 \n
+           .Replace("§e", "帐") // 替换 \n
+           .Replace("§f", "章") // 替换 \n
+           .Replace("§k", "掌") // 替换 \n
+           .Replace("§l", "在") // 替换 \n
+           .Replace("§m", "中") // 替换 \n
+           .Replace("§n", "这") // 替换 \n
+           .Replace("§o", "啊")
+           .Replace("§r", "阿") // 替换 \n
+           .Replace("§A", "吖") // 替换 \n
+           .Replace("§B", "锕") // 替换 \n
+           .Replace("§C", "腌") // 替换 \n
+           .Replace("§D", "呵") // 替换 \n
+           .Replace("§E", "了") // 替换 \n
+           .Replace("§F", "来") // 替换 \n
+           .Replace("§K", "零") // 替换 \n
+           .Replace("§L", "啦") // 替换 \n
+           .Replace("§M", "怕") // 替换 \n
+           .Replace("§N", "人") // 替换 \n
+           .Replace("§O", "我")
+           .Replace("§R", "为") // 替换 \n
+           .Replace("%i", "五") // 替换 \n
+           .Replace("%f", "去") // 替换 \n
+           .Replace("%d", "哎") // 替换 \n
+           .Replace("%s", "站"); // 替换 %s
+
+                    // Console.WriteLine(value);
+                    tmp1 = LineCover(replaced);
+
+
+                    string tmp2 = input
+                         .Replace("="+sc,  "="+tmp1 );
+                    replaced = tmp2
+         .Replace("占", "\\n")
+.Replace("吗", "§2")
+.Replace("口", "$s")
+.Replace("没", "§3") // 替换 \n
+.Replace("篇", "§a") // 替换 \n
+.Replace("长", "§b") // 替换 \n
+.Replace("涨", "§c") // 替换 \n
+.Replace("张", "§d") // 替换 \n
+.Replace("帐", "§e") // 替换 \n
+.Replace("章", "§f") // 替换 \n
+.Replace("掌", "§k") // 替换 \n
+.Replace("在", "§l") // 替换 \n
+.Replace("中", "§m") // 替换 \n
+.Replace("这", "§n") // 替换 \n
+.Replace("啊", "§o")
+.Replace("阿", "§r") // 替换 \n
+.Replace("吖", "§A") // 替换 \n
+.Replace("锕", "§B") // 替换 \n
+.Replace("腌", "§C") // 替换 \n
+.Replace("呵", "§D") // 替换 \n
+.Replace("了", "§E") // 替换 \n
+.Replace("来", "§F") // 替换 \n
+.Replace("零", "§K") // 替换 \n
+.Replace("啦", "§L") // 替换 \n
+.Replace("怕", "§M") // 替换 \n
+.Replace("人", "§N") // 替换 \n
+.Replace("我", "§O")
+.Replace("为", "§R") // 替换 \n
+.Replace("五", "%i") // 替换 \n
+.Replace("去", "%f") // 替换 \n
+.Replace("哎", "%d") // 替换 \n
+.Replace("站", "%s"); // 替换 %s}
+                    //Console.WriteLine(tmp2);
+            return replaced;
+        }
             return input;
+        }
+        static string GetValueAfterEquals(string input)
+        {
+            string[] parts = input.Split(new[] { '=' }, 2); // 按等号分割，最多分成两部分
+            if (parts.Length < 2)
+            {
+                return null; // 如果没有等号，返回 null
+            }
+
+            // 返回第二部分，并去除前后空格
+            return parts[1].Trim();
         }
         public static class UnicodeVariants
         {
@@ -403,7 +503,7 @@ namespace WindowsFormsApplication6
             if (radioButton1.Checked)
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Text Files|*.txt;*.ini;*.log;*.cmd;*.bat;*.json";
+                openFileDialog.Filter = "Text Files|*.txt;*.ini;*.log;*.cmd;*.bat;*.json;*.lang";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     path = Path.GetDirectoryName(openFileDialog.FileName);
@@ -454,7 +554,7 @@ namespace WindowsFormsApplication6
                     foreach (string file in Directory.GetFiles(currentDir))
                     {
                         
-                        if (ContainsSubstring(file, "en_us.json"))
+                        if (ContainsSubstring(file, "en_us.json")&&!oldmc)
                         {
                             path = file.Replace("en_us.json","");
                             filepath = file;
@@ -462,6 +562,26 @@ namespace WindowsFormsApplication6
                            
                             textBox2.Text = textBox2.Text +"\r\n正在处理："+ file + "\r\n";
                            // Console.WriteLine(file);
+                            build();
+                        }
+                        if (ContainsSubstring(file, "en_us.lang") && oldmc)
+                        {
+                            path = file.Replace("en_us.lang", "");
+                            filepath = file;
+                            Console.WriteLine(file + filepath); //FindFiles
+
+                            textBox2.Text = textBox2.Text + "\r\n正在处理：" + file + "\r\n";
+                            // Console.WriteLine(file);
+                            build();
+                        }
+                        if (ContainsSubstring(file, "en_US.lang") && oldmc)
+                        {
+                            path = file.Replace("en_US.lang", "");
+                            filepath = file;
+                            Console.WriteLine(file + filepath); //FindFiles
+
+                            textBox2.Text = textBox2.Text + "\r\n正在处理：" + file + "\r\n";
+                            // Console.WriteLine(file);
                             build();
                         }
                     }
@@ -487,16 +607,17 @@ namespace WindowsFormsApplication6
     }
 private void ReplaceLineEndings(StreamReader reader)
     {string outputFilePath = null;
-        if (savemode == 0)
+        if (savemode == 0||savemode==2)
         {
-           outputFilePath = Path.Combine(path, lang + ".json");
+            if (oldmc)
+            { outputFilePath = Path.Combine(path, lang + ".lang"); }
+            if (!oldmc)
+            { outputFilePath = Path.Combine(path, lang + ".json"); }
+           
         }
         if (savemode == 1)
         { outputFilePath = savepath; }
-        if (savemode == 2)
-        {
-            outputFilePath = Path.Combine(path, lang + ".json");
-        }
+        
 
     // 使用 StreamWriter 写入文件（一次性打开文件）
     using (StreamWriter writer = new StreamWriter(outputFilePath, false, Encoding.UTF8))
@@ -558,7 +679,7 @@ public void MainBuild()
         {
             if (ContainsSubstring(n, "pack.mcmeta"))
             { ismcpack = true; }
-            Console.WriteLine(n);
+            
         }
         if (ismcpack)
         {
@@ -576,8 +697,10 @@ public void MainBuild()
             // 根据用户的选择执行操作
             if (result == DialogResult.Yes)
             {
+                
                 DoFolder(folderpath);
-                Console.WriteLine("用户选择了“是”");
+
+                Console.WriteLine("用户选择了“是”"+savemode+folderpath);
                 // 在这里添加“是”的逻辑
             }
             else if (result == DialogResult.No)
@@ -590,12 +713,21 @@ public void MainBuild()
         if (savemode == 1 || savemode == 2)
         {
             bool ismcpack = false;
-            string[] tmp1 = Directory.GetFiles(savefolderpath);
-            foreach(string n in tmp1)
+            string[] tmp1 = null;
+            try
             {
-                if (ContainsSubstring(n, "pack.mcmeta"))
-                { ismcpack = true; }
-            Console.WriteLine(n);}
+                tmp1 = Directory.GetFiles(savefolderpath);
+            }
+            catch
+            { }
+            if (tmp1 != null)
+            {
+                foreach (string n in tmp1)
+                {
+                    if (ContainsSubstring(n, "pack.mcmeta"))
+                    { ismcpack = true; }
+                }
+            }
             if (ismcpack)
             {
                 DoFolder(savefolderpath);
@@ -612,6 +744,16 @@ public void MainBuild()
                 // 根据用户的选择执行操作
                 if (result == DialogResult.Yes)
                 {
+                    try
+                    {
+                        CopyDirectory(new DirectoryInfo(folderpath), new DirectoryInfo(savefolderpath));
+
+                        Console.WriteLine("文件夹复制完成！");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("错误: " + ex.Message);
+                    }
                     DoFolder(savefolderpath);
                     Console.WriteLine("用户选择了“是”");
                     // 在这里添加“是”的逻辑
@@ -638,7 +780,10 @@ private void 生成ToolStripMenuItem_Click(object sender, EventArgs e)
 
 private void checkBox1_CheckedChanged(object sender, EventArgs e)
 {
-   
+    if (checkBox1.Checked)
+    { textBox1.Enabled = true; }
+    if (!checkBox1.Checked)
+    { textBox1.Enabled = false; }
 }
 
 private void 生成并另存为ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -651,7 +796,7 @@ private void 生成并另存为ToolStripMenuItem_Click(object sender, EventArgs 
             using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
                 saveDialog.Title = "保存语言文件文件";
-                saveDialog.Filter = "json语言文件|*.json";
+                saveDialog.Filter = "Json语言文件|*.json|Lang文件|*.lang";
                 saveDialog.DefaultExt = "json";
 
 
@@ -701,16 +846,7 @@ private void 生成并另存为ToolStripMenuItem_Click(object sender, EventArgs 
                        // Console.WriteLine("用户取消了选择");
                     }
                 }
-         try
-        {
-            CopyDirectory(new DirectoryInfo(folderpath), new DirectoryInfo(savefolderpath));
-            
-            Console.WriteLine("文件夹复制完成！");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("错误: "+ex.Message);
-        }
+     
          MainBuild();
     }
     else
@@ -726,6 +862,20 @@ private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
 {
     Form f2 = new Form2();
     f2.ShowDialog();
+}
+
+private void checkBox2_CheckedChanged(object sender, EventArgs e)
+{
+    if (checkBox2.Checked)
+    { oldmc = true; }
+    if (!checkBox2.Checked)
+    { oldmc = false; }
+}
+
+private void lang与JsonToolStripMenuItem_Click(object sender, EventArgs e)
+{
+    Form f1 = new langjsontool();
+    f1.ShowDialog();
 }
 
 

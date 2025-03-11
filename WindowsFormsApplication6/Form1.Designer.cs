@@ -33,12 +33,15 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.生成并另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.生成并另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.lang与JsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,6 +65,7 @@
             this.打开ToolStripMenuItem,
             this.生成ToolStripMenuItem,
             this.生成并另存为ToolStripMenuItem,
+            this.lang与JsonToolStripMenuItem,
             this.关于ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -82,6 +86,20 @@
             this.生成ToolStripMenuItem.Size = new System.Drawing.Size(58, 28);
             this.生成ToolStripMenuItem.Text = "生成";
             this.生成ToolStripMenuItem.Click += new System.EventHandler(this.生成ToolStripMenuItem_Click);
+            // 
+            // 生成并另存为ToolStripMenuItem
+            // 
+            this.生成并另存为ToolStripMenuItem.Name = "生成并另存为ToolStripMenuItem";
+            this.生成并另存为ToolStripMenuItem.Size = new System.Drawing.Size(130, 28);
+            this.生成并另存为ToolStripMenuItem.Text = "生成并另存为";
+            this.生成并另存为ToolStripMenuItem.Click += new System.EventHandler(this.生成并另存为ToolStripMenuItem_Click);
+            // 
+            // 关于ToolStripMenuItem
+            // 
+            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(58, 28);
+            this.关于ToolStripMenuItem.Text = "关于";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
             // radioButton1
             // 
@@ -108,45 +126,66 @@
             this.radioButton2.Text = "文件夹模式";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
-            // 生成并另存为ToolStripMenuItem
-            // 
-            this.生成并另存为ToolStripMenuItem.Name = "生成并另存为ToolStripMenuItem";
-            this.生成并另存为ToolStripMenuItem.Size = new System.Drawing.Size(130, 28);
-            this.生成并另存为ToolStripMenuItem.Text = "生成并另存为";
-            this.生成并另存为ToolStripMenuItem.Click += new System.EventHandler(this.生成并另存为ToolStripMenuItem_Click);
-            // 
             // checkBox1
             // 
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(458, 138);
+            this.checkBox1.Location = new System.Drawing.Point(458, 129);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(169, 40);
+            this.checkBox1.Size = new System.Drawing.Size(160, 40);
             this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "自定义语言名称\r\n不需要输入.json";
+            this.checkBox1.Text = "自定义语言名称\r\n不需要输入后缀\r\n";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(458, 202);
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(458, 175);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(205, 28);
             this.textBox1.TabIndex = 6;
+            this.textBox1.Text = "qps_ploc";
             // 
-            // 关于ToolStripMenuItem
+            // checkBox2
             // 
-            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(58, 28);
-            this.关于ToolStripMenuItem.Text = "关于";
-            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
+            this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(458, 227);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(214, 22);
+            this.checkBox2.TabIndex = 7;
+            this.checkBox2.Text = "旧版MC兼容1.1-1.12.2";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Enabled = false;
+            this.checkBox3.Location = new System.Drawing.Point(458, 255);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(160, 22);
+            this.checkBox3.TabIndex = 8;
+            this.checkBox3.Text = "自动添加mcmeta";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // lang与JsonToolStripMenuItem
+            // 
+            this.lang与JsonToolStripMenuItem.Name = "lang与JsonToolStripMenuItem";
+            this.lang与JsonToolStripMenuItem.Size = new System.Drawing.Size(119, 28);
+            this.lang与JsonToolStripMenuItem.Text = "Lang与Json";
+            this.lang与JsonToolStripMenuItem.Click += new System.EventHandler(this.lang与JsonToolStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(675, 336);
+            this.Controls.Add(this.checkBox3);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.radioButton2);
@@ -177,6 +216,9 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.ToolStripMenuItem lang与JsonToolStripMenuItem;
     }
 }
 
