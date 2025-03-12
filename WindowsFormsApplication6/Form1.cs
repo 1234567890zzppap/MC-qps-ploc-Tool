@@ -78,12 +78,14 @@ if (!oldmc)
            .Replace("%f", "去") // 替换 \n
            .Replace("%d", "哎") // 替换 \n
            .Replace("%s", "站"); // 替换 %s
-
-                    // Console.WriteLine(value);
-                    string tmp1 = LineCover(replaced);
-
+                    CombinedReplacer c = new CombinedReplacer();
+                    string tmp3 = c.Convert(replaced); 
+                    Console.WriteLine(tmp3);
+                    string tmp1 = LineCover(tmp3);
+                    tmp3 = c.Restore(tmp1);
+                    Console.WriteLine(tmp3);
                     string tmp2 = input
-                         .Replace("\"" + match.Groups[1].Value + "\"", "\"" + tmp1 + "\"");
+                         .Replace("\"" + match.Groups[1].Value + "\"", "\"" + tmp3 + "\"");
                     replaced = tmp2
          .Replace("占", "\\n")
 .Replace("吗", "§2")
@@ -164,13 +166,15 @@ if (!oldmc)
            .Replace("%f", "去") // 替换 \n
            .Replace("%d", "哎") // 替换 \n
            .Replace("%s", "站"); // 替换 %s
-
+            CombinedReplacer c = new CombinedReplacer();
+            string tmp3 = c.Convert(replaced);
                     // Console.WriteLine(value);
                     tmp1 = LineCover(replaced);
-
+                    tmp3 = c.Restore(tmp1);
+                    
 
                     string tmp2 = input
-                         .Replace("="+sc,  "="+tmp1 );
+                         .Replace("="+sc,  "="+tmp3 );
                     replaced = tmp2
          .Replace("占", "\\n")
 .Replace("吗", "§2")
@@ -220,6 +224,93 @@ if (!oldmc)
             // 返回第二部分，并去除前后空格
             return parts[1].Trim();
         }
+        
+
+public class CombinedReplacer
+{
+    private Dictionary<string, string> _unicodeMap = new Dictionary<string, string>();
+    private Dictionary<string, string> _braceMap = new Dictionary<string, string>();
+    private Dictionary<string, string> _reverseMap = new Dictionary<string, string>();
+    private int _unicodeCounter = 1;
+    private int _braceCounter = 1;
+
+    public string Convert(string input)
+    {
+        // 1. 替换半角花括号内容
+        string bracePattern = @"\{([^}]+)\}";
+        string converted = Regex.Replace(input, bracePattern, delegate(Match match)
+        {
+            string fullMatch = match.Groups[0].Value;
+            if (!_braceMap.ContainsKey(fullMatch))
+            {
+                string placeholder = string.Format("＃{0}＃", ToChineseNumber(_braceCounter));
+                _braceMap[fullMatch] = placeholder;
+                _reverseMap[placeholder] = fullMatch;
+                _braceCounter++;
+            }
+            return _braceMap[fullMatch];
+        });
+
+        // 2. 替换 Unicode 转义符
+        string unicodePattern = @"\\u([0-9a-fA-F]{4,5})";
+        converted = Regex.Replace(converted, unicodePattern, delegate(Match match)
+        {
+            string fullMatch = match.Groups[0].Value;
+            if (!_unicodeMap.ContainsKey(fullMatch))
+            {
+                string placeholder = string.Format("※{0}※", ToChineseNumber(_unicodeCounter));
+                _unicodeMap[fullMatch] = placeholder;
+                _reverseMap[placeholder] = fullMatch;
+                _unicodeCounter++;
+            }
+            return _unicodeMap[fullMatch];
+        });
+
+        return converted;
+    }
+
+    public string Restore(string converted)
+    {
+        string pattern = @"(※[零一二三四五六七八九十百千万]+※|＃[零一二三四五六七八九十百千万]+＃)";
+        return Regex.Replace(converted, pattern, delegate(Match match)
+        {
+            string placeholder = match.Value;
+            return _reverseMap.ContainsKey(placeholder) ? _reverseMap[placeholder] : placeholder;
+        });
+    }
+
+    // 数字转中文（支持 1~99999）
+    private string ToChineseNumber(int num)
+    {
+        string[] units = { "", "十", "百", "千", "万" };
+        string[] digits = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
+
+        if (num == 0) return digits[0];
+
+        string result = "";
+        int unitIndex = 0;
+
+        while (num > 0)
+        {
+            int current = num % 10;
+            if (current != 0)
+            {
+                result = digits[current] + units[unitIndex] + result;
+            }
+            else
+            {
+                if (!result.StartsWith(digits[0]))
+                    result = digits[0] + result;
+            }
+
+            num /= 10;
+            unitIndex++;
+        }
+
+        return result.TrimEnd('零').Replace("零零", "零");
+    }
+}
+
         public static class UnicodeVariants
         {
             public static string[] a = new string[] { "ä", "ā", "á", "ǎ", "à", "ă", "å", "ǻ", "ã", "ǟ", "ǡ", "ǻ", "ȁ", "ȃ", "ȧ", "ᶏ", "ḁ", "ẚ", "ạ", "ả", "ấ", "ầ", "ẩ", "ẫ", "ậ", "ắ", "ằ", "ẳ", "ẵ", "ặ", "ɑ", "α", "ά", "ὰ", "ἀ", "ἁ", "ἂ", "ἃ", "ἆ", "ἇ", "ᾂ", "ᾃ", "ᾰ", "ᾱ", "ᾲ", "ᾳ", "ᾴ", "ᾶ", "ᾷ", "ⱥ", "𐓘", "𐓙", "𐓚" };
