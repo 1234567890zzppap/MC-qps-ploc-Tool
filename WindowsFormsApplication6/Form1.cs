@@ -179,6 +179,8 @@ if (!oldmc)
          .Replace("占", "\\n")
 .Replace("吗", "§2")
 .Replace("口", "$s")
+.Replace("抠","%2" )
+.Replace("扣","%3" )
 .Replace("没", "§3") // 替换 \n
 .Replace("篇", "§a") // 替换 \n
 .Replace("长", "§b") // 替换 \n
