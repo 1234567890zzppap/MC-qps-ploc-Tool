@@ -1,6 +1,6 @@
 # MC-qps-ploc-Tool
 ## 用于伪本地化MC文本
-## 效果
+### 效果
 -----------------------------------------------------------
 ![abc](https://1234567890zzppap.github.io/lib/1%20(1).jpg)
 ![abc](https://1234567890zzppap.github.io/lib/1%20(2).jpg)
@@ -12,3 +12,4 @@
 ![abc](https://1234567890zzppap.github.io/lib/1%20(8).jpg)
 ![abc](https://1234567890zzppap.github.io/lib/1%20(9).jpg)
 
+## 使用知名AI模型Dicksick辅助编写
