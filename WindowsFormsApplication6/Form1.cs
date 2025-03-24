@@ -24,6 +24,7 @@ namespace WindowsFormsApplication6
         public string savefolderpath;
         public int savemode = 0;
         public bool oldmc = false;
+     
         public Form1()
         {
             
@@ -80,10 +81,11 @@ if (!oldmc)
            .Replace("%s", "站"); // 替换 %s
                     CombinedReplacer c = new CombinedReplacer();
                     string tmp3 = c.Convert(replaced); 
-                    Console.WriteLine(tmp3);
+                    
                     string tmp1 = LineCover(tmp3);
                     tmp3 = c.Restore(tmp1);
-                    Console.WriteLine(tmp3);
+                    if (tmp3 == "[d41d8][]")
+                    { tmp3 = "[d41d8][ ]"; }
                     string tmp2 = input
                          .Replace("\"" + match.Groups[1].Value + "\"", "\"" + tmp3 + "\"");
                     replaced = tmp2
@@ -169,9 +171,10 @@ if (!oldmc)
             CombinedReplacer c = new CombinedReplacer();
             string tmp3 = c.Convert(replaced);
                     // Console.WriteLine(value);
-                    tmp1 = LineCover(replaced);
+                    tmp1 = LineCover(tmp3);
                     tmp3 = c.Restore(tmp1);
-                    
+                    if (tmp3 == "[d41d8][]")
+                    { tmp3 = "[d41d8][ ]"; }
 
                     string tmp2 = input
                          .Replace("="+sc,  "="+tmp3 );
@@ -222,96 +225,15 @@ if (!oldmc)
             {
                 return null; // 如果没有等号，返回 null
             }
-
+            // 输出未处理的值 Console.WriteLine(parts[1]);
+            if (parts[1] != " " && parts[1] != "\n" && parts[1] != null)
+            { return parts[1]; }
             // 返回第二部分，并去除前后空格
-            return parts[1].Trim();
+            return null;
         }
         
 
-public class CombinedReplacer
-{
-    private Dictionary<string, string> _unicodeMap = new Dictionary<string, string>();
-    private Dictionary<string, string> _braceMap = new Dictionary<string, string>();
-    private Dictionary<string, string> _reverseMap = new Dictionary<string, string>();
-    private int _unicodeCounter = 1;
-    private int _braceCounter = 1;
 
-    public string Convert(string input)
-    {
-        // 1. 替换半角花括号内容
-        string bracePattern = @"\{([^}]+)\}";
-        string converted = Regex.Replace(input, bracePattern, delegate(Match match)
-        {
-            string fullMatch = match.Groups[0].Value;
-            if (!_braceMap.ContainsKey(fullMatch))
-            {
-                string placeholder = string.Format("＃{0}＃", ToChineseNumber(_braceCounter));
-                _braceMap[fullMatch] = placeholder;
-                _reverseMap[placeholder] = fullMatch;
-                _braceCounter++;
-            }
-            return _braceMap[fullMatch];
-        });
-
-        // 2. 替换 Unicode 转义符
-        string unicodePattern = @"\\u([0-9a-fA-F]{4,5})";
-        converted = Regex.Replace(converted, unicodePattern, delegate(Match match)
-        {
-            string fullMatch = match.Groups[0].Value;
-            if (!_unicodeMap.ContainsKey(fullMatch))
-            {
-                string placeholder = string.Format("※{0}※", ToChineseNumber(_unicodeCounter));
-                _unicodeMap[fullMatch] = placeholder;
-                _reverseMap[placeholder] = fullMatch;
-                _unicodeCounter++;
-            }
-            return _unicodeMap[fullMatch];
-        });
-
-        return converted;
-    }
-
-    public string Restore(string converted)
-    {
-        string pattern = @"(※[零一二三四五六七八九十百千万]+※|＃[零一二三四五六七八九十百千万]+＃)";
-        return Regex.Replace(converted, pattern, delegate(Match match)
-        {
-            string placeholder = match.Value;
-            return _reverseMap.ContainsKey(placeholder) ? _reverseMap[placeholder] : placeholder;
-        });
-    }
-
-    // 数字转中文（支持 1~99999）
-    private string ToChineseNumber(int num)
-    {
-        string[] units = { "", "十", "百", "千", "万" };
-        string[] digits = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
-
-        if (num == 0) return digits[0];
-
-        string result = "";
-        int unitIndex = 0;
-
-        while (num > 0)
-        {
-            int current = num % 10;
-            if (current != 0)
-            {
-                result = digits[current] + units[unitIndex] + result;
-            }
-            else
-            {
-                if (!result.StartsWith(digits[0]))
-                    result = digits[0] + result;
-            }
-
-            num /= 10;
-            unitIndex++;
-        }
-
-        return result.TrimEnd('零').Replace("零零", "零");
-    }
-}
 
         public static class UnicodeVariants
         {
@@ -352,7 +274,7 @@ public class CombinedReplacer
             public static string[] r = new string[] { "ř", "ŗ", "г", "ѓ", "ґ", "я" };
             public static string[] R = new string[] { "Ř", "Я", "Г", "Ґ" };
             public static string[] s = new string[] { "ś", "š", "ŝ", "ș", "ş", "ƨ" };
-            public static string[] S = new string[] { "Š", "Ş", "Ș", "§" };
+            public static string[] S = new string[] { "Š", "Ş", "Ș"};
             public static string[] t = new string[] { "ț", "ţ", "ť", "ŧ", "т", "τ" };
             public static string[] T = new string[] { "Ť", "Ţ", "Ț", "Ŧ" };
             public static string[] u = new string[] { "ū", "ú", "ǔ", "ù", "û", "ũ", "ů", "ų", "ü", "ǖ", "ǘ", "ǚ", "ǜ", "ύ", "ϋ", "ΰ", "µ", "ц", "џ" };
@@ -376,6 +298,110 @@ public class CombinedReplacer
 
             public static string[] alphabet = new string[] { "A", "a", "B", "b", "C", "c", "D", "d", "E", "e", "F", "f", "G", "g", "H", "h", "I", "i", "J", "j", "K", "k", "L", "l", "M", "m", "N", "n", "O", "o", "P", "p", "Q", "q", "R", "r", "S", "s", "T", "t", "U", "u", "V", "v", "W", "w", "X", "x", "Y", "y", "Z", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
             public static string[] enNumber = new string[] { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty" };
+        }
+        public class CombinedReplacer
+        {
+            private readonly Dictionary<string, string> _reverseMap = new Dictionary<string, string>();
+            private int _counter = 1;
+
+            public string Convert(string input)
+            {
+                string processed = input;
+
+                // 1. 替换花括号内容 {content} (全角符号)
+                processed = ReplacePattern(processed, @"\{([^{}]+)\}", "＃", "＃");
+
+                // 2. 替换冒号内容 :content: (全角符号)
+                processed = ReplacePattern(processed, @":([^:]+):", "￥", "￥");
+
+                // 3. 替换Unicode转义 \uXXXX (全角符号)
+                processed = ReplacePattern(processed, @"\\u(.{5})", "※", "※");
+
+                return processed;
+            }
+
+            public string Restore(string converted)
+            {
+                // 修正后的正则表达式（全符号统一转义）
+                string pattern = @"(※[\u4e00-\u9fa5]+※|＃[\u4e00-\u9fa5]+＃|￥[\u4e00-\u9fa5]+￥)";
+
+                return Regex.Replace(converted, pattern,
+                    delegate(Match match) // .NET 4.0兼容的委托写法
+                    {
+                        string placeholder = match.Value;
+                        string original;
+                        return _reverseMap.TryGetValue(placeholder, out original) ? original : placeholder;
+                    });
+            }
+
+            private string ReplacePattern(string input, string regexPattern, string prefix, string suffix)
+            {
+                return Regex.Replace(input, regexPattern,
+                    delegate(Match match) // 使用匿名方法替代Lambda
+                    {
+                        string fullMatch = match.Value;
+                        if (_reverseMap.ContainsValue(fullMatch))
+                        {
+                            foreach (var pair in _reverseMap)
+                            {
+                                if (pair.Value == fullMatch)
+                                    return pair.Key;
+                            }
+                        }
+
+                        string placeholder = string.Format("{0}{1}{2}",
+                            prefix,
+                            ToChineseNumber(_counter),
+                            suffix);
+
+                        _reverseMap[placeholder] = fullMatch;
+                        _counter++;
+
+                        return placeholder;
+                    });
+            }
+
+            // 兼容.NET 4.0的中文数字转换
+            private string ToChineseNumber(int num)
+            {
+                if (num < 1 || num > 99999)
+                    throw new ArgumentOutOfRangeException("num");
+
+                string[] digits = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
+                string[] units = { "", "十", "百", "千", "万" };
+
+                string result = "";
+                int unitIndex = 0;
+                bool lastZero = false;
+
+                while (num > 0)
+                {
+                    int current = num % 10;
+                    if (current != 0)
+                    {
+                        result = digits[current] + units[unitIndex] + result;
+                        lastZero = false;
+                    }
+                    else
+                    {
+                        if (!lastZero && unitIndex != 0)
+                            result = digits[0] + result;
+                        lastZero = true;
+                    }
+
+                    num /= 10;
+                    unitIndex++;
+                }
+
+                // 兼容旧框架的字符串操作
+                return result
+                    .Replace("零万", "万")
+                    .Replace("零千", "零")
+                    .Replace("零百", "零")
+                    .Replace("零十", "零")
+                    .Replace("零零", "零")
+                    .TrimEnd('零');
+            }
         }
 
         public string Conver(string ab)
@@ -651,7 +677,7 @@ public class CombinedReplacer
                         {
                             path = file.Replace("en_us.json","");
                             filepath = file;
-                            Console.WriteLine(file + filepath); //FindFiles
+                            //Console.WriteLine(file + filepath); //FindFiles
                            
                             textBox2.Text = textBox2.Text +"\r\n正在处理："+ file + "\r\n";
                            // Console.WriteLine(file);
@@ -661,7 +687,7 @@ public class CombinedReplacer
                         {
                             path = file.Replace("en_us.lang", "");
                             filepath = file;
-                            Console.WriteLine(file + filepath); //FindFiles
+                            //Console.WriteLine(file + filepath); //FindFiles
 
                             textBox2.Text = textBox2.Text + "\r\n正在处理：" + file + "\r\n";
                             // Console.WriteLine(file);
@@ -671,7 +697,7 @@ public class CombinedReplacer
                         {
                             path = file.Replace("en_US.lang", "");
                             filepath = file;
-                            Console.WriteLine(file + filepath); //FindFiles
+                           // Console.WriteLine(file + filepath); //FindFiles
 
                             textBox2.Text = textBox2.Text + "\r\n正在处理：" + file + "\r\n";
                             // Console.WriteLine(file);
@@ -739,6 +765,7 @@ public void build()
         {
             ReplaceLineEndings(reader);
         }
+        
     }
     catch (Exception ex)
     {
@@ -793,12 +820,12 @@ public void MainBuild()
                 
                 DoFolder(folderpath);
 
-                Console.WriteLine("用户选择了“是”"+savemode+folderpath);
+                //Console.WriteLine("用户选择了“是”"+savemode+folderpath);
                 // 在这里添加“是”的逻辑
             }
             else if (result == DialogResult.No)
             {
-                Console.WriteLine("用户选择了“否”");
+                //Console.WriteLine("用户选择了“否”");
                 // 在这里添加“否”的逻辑
             }
         }
@@ -841,19 +868,19 @@ public void MainBuild()
                     {
                         CopyDirectory(new DirectoryInfo(folderpath), new DirectoryInfo(savefolderpath));
 
-                        Console.WriteLine("文件夹复制完成！");
+                        //Console.WriteLine("文件夹复制完成！");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("错误: " + ex.Message);
+                        //Console.WriteLine("错误: " + ex.Message);
                     }
                     DoFolder(savefolderpath);
-                    Console.WriteLine("用户选择了“是”");
+                    //Console.WriteLine("用户选择了“是”");
                     // 在这里添加“是”的逻辑
                 }
                 else if (result == DialogResult.No)
                 {
-                    Console.WriteLine("用户选择了“否”");
+                    //Console.WriteLine("用户选择了“否”");
                     // 在这里添加“否”的逻辑
                 }
             }
