@@ -24,7 +24,7 @@ namespace WindowsFormsApplication6
         public string savefolderpath;
         public int savemode = 0;
         public bool oldmc = false;
-     
+        public static string[] enNumber = new string[] { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty" };
         public Form1()
         {
             
@@ -297,7 +297,7 @@ if (!oldmc)
             public static string[] _3 = new string[] { "↋" };
 
             public static string[] alphabet = new string[] { "A", "a", "B", "b", "C", "c", "D", "d", "E", "e", "F", "f", "G", "g", "H", "h", "I", "i", "J", "j", "K", "k", "L", "l", "M", "m", "N", "n", "O", "o", "P", "p", "Q", "q", "R", "r", "S", "s", "T", "t", "U", "u", "V", "v", "W", "w", "X", "x", "Y", "y", "Z", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-            public static string[] enNumber = new string[] { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty" };
+           
         }
         public class CombinedReplacer
         {
@@ -445,9 +445,15 @@ if (!oldmc)
                 string[] variants = (string[])field.GetValue(null);
 
                 // 输出结果
-                
-                int n = GenerateRandomNumberInRange(0, variants.Length);
-                return variants[n]; 
+
+                if (!checkBox4.Checked)
+                {
+                    return variants[GenerateRandomNumberInRange(0, variants.Length)];
+                }
+                else
+                {
+                    return variants[0];
+                }
                 
             }
             catch (Exception ex)
@@ -505,36 +511,62 @@ if (!oldmc)
             
                 }
                // Console.WriteLine(tmp +" "+space);
-                string f="";
-                int tmp1 = 0;
-                int tmp2 = 0;
-                //Console.WriteLine(input.Length);
-                for (int a = 0; a < input.Length; a++)
+                if (!checkBox4.Checked)
                 {
-                    
-                    if (input.Length > 2 && tmp1 == 0)
-                    { f = f + " !";
-                    tmp1++;
-                    tmp2 = 1;
-                    }
-                    if ((a % 7) == 0 && a != 0)
+                    string f = "";
+                    int tmp1 = 0;
+                    int tmp2 = 0;
+                    //Console.WriteLine(input.Length);
+                    for (int a = 0; a < input.Length; a++)
                     {
-                        f = f + "!";
-                        tmp2++;
-                        if (tmp2 >= 3)
-                        { f = f + " ";
-                        tmp2 = 0;
+
+                        if (input.Length > 2 && tmp1 == 0)
+                        {
+                            f = f + " !";
+                            tmp1++;
+                            tmp2 = 1;
+                        }
+                        if ((a % 7) == 0 && a != 0)
+                        {
+                            f = f + "!";
+                            tmp2++;
+                            if (tmp2 >= 3)
+                            {
+                                f = f + " ";
+                                tmp2 = 0;
+                            }
+
                         }
 
                     }
+
+
+                    tmp = FakeHash(tmp) + "[" + tmp + f + "]";
+                    return tmp;
+                }
+                else if (checkBox4.Checked)
+                { int num = Regex.Matches(input, " ").Count;
+               
+                string tmp1 = "";
+                int tmp2;
+                for (int pp = 0;num-1 >= pp; pp++ )
+                {
+                  
+                        tmp2 = pp % 20;
+                        /* Console.WriteLine("num " + num);
+                         Console.WriteLine("tmp2 " + pp);
+                         */
+                        tmp1 = tmp1 + " " + enNumber[tmp2];
                     
                 }
-                
-                
-                tmp = FakeHash(tmp) + "[" + tmp + f + "]"; 
-                    return tmp;
-            
 
+                tmp ="[" +tmp + tmp1+"]";
+                return tmp;
+                }
+
+
+                else
+                { return tmp; }
         }
         static string GetMD5Hash(string input)
         {
